@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Writeup: Mr. Robot</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background-color: #0b1e2d;
+      color: #e8f1f8;
+      font-family: 'Inter', sans-serif;
+      padding: 2rem;
+      line-height: 1.7;
+    }
+    h1 {
+      color: #38bdf8;
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+    h2 {
+      color: #38bdf8;
+      font-size: 1.4rem;
+      margin-top: 2rem;
+    }
+    code, pre {
+      background: #122738;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      display: block;
+      margin-top: 1rem;
+      overflow-x: auto;
+      color: #cbd5e1;
+    }
+    a {
+      color: #38bdf8;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    .back {
+      margin-bottom: 2rem;
+      display: inline-block;
+      color: #94a3b8;
+    }
+  </style>
+</head>
+<body>
+  <a href="../write.html" class="back">← Volver a la lista de writeups</a>
+
+  <h1>CTF - Mr. Robot</h1>
+
+  <p>En esta máquina de nivel principiante/intermedio, el objetivo era encontrar tres claves ocultas. Para ello, realicé una enumeración exhaustiva, explotación de WordPress y escalada de privilegios para obtener acceso root.</p>
+
+  <h2>1. Enumeración Inicial</h2>
+  <p>Escaneo con <code>nmap</code> mostró puertos abiertos: 22 (SSH), 80 (HTTP), 443 (HTTPS).</p>
+  <p>Accedí a la web principal, encontré una consola con temática Mr. Robot.</p>
+  <p>Descubrí <code>robots.txt</code> con referencias a <code>fsocity.dic</code> y <code>key-1-of-3.txt</code>.</p>
+  <p>Primera clave obtenida:</p>
+  <pre>073403c8a58a1f80d943455fb30724b9</pre>
+
+  <h2>2. Ataque a WordPress</h2>
+  <p>WordPress versión vulnerable localizada. Se utilizó un ataque de fuerza bruta contra el login con el diccionario <code>fsocity.dic</code>.</p>
+  <p>Credenciales válidas encontradas: <code>elliot / ER28-0652</code>.</p>
+
+  <h2>3. Escalada de privilegios</h2>
+  <p>Accedí vía SSH como elliot. Usé técnicas de escalada básicas: inspección de permisos sudo, SUID, scripts mal configurados.</p>
+  <p>Obtuve la clave final de root:</p>
+  <pre>04787ddef27c3dee1ee161b21670b4e4</pre>
+
+  <h2>Conclusión</h2>
+  <p>Máquina entretenida con una curva de aprendizaje muy buena para quien empieza en el pentesting web y privilege escalation.</p>
+</body>
+</html>
