@@ -1,0 +1,131 @@
+:root {
+  --bg: #0b1e2d;
+  --text: #e8f1f8;
+  --muted: #94a3b8;
+  --primary: #38bdf8;
+  --panel: rgba(18, 39, 56, 0.85);
+  --border: #1e3a4c;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', sans-serif;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  backdrop-filter: blur(2px);
+}
+
+header {
+  padding: 2rem 1rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+  background-color: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+
+.profile-pic {
+  width: 100px;
+  height: 100px;
+  border-radius: 70%;
+  object-fit: cover;
+}
+
+.intro {
+  max-width: 500px;
+}
+
+h1 {
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+p.lead {
+  font-size: 1rem;
+  color: var(--muted);
+  margin-top: 0.3rem;
+}
+
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+nav a {
+  padding: 0.4rem 0.8rem;
+  border: 1px solid var(--primary);
+  color: var(--primary);
+  text-decoration: none;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  transition: background-color 0.2s;
+}
+
+nav a:hover {
+  background-color: var(--primary);
+  color: var(--bg);
+}
+
+main {
+  max-width: 680px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.card {
+  background: var(--panel);
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  border: 1px solid var(--border);
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(56, 189, 248, 0.15);
+}
+
+.card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  color: var(--primary);
+}
+
+ul {
+  padding-left: 1.2rem;
+}
+
+ul li {
+  margin-bottom: 0.5rem;
+}
+
+a {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+footer {
+  text-align: center;
+  padding: 2rem 1rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+  border-top: 1px solid var(--border);
+}
