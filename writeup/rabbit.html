@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Rabbit Store - Writeup</title>
+  <style>
+    body {
+      background-color: #0f1c2e;
+      color: #e3e3e3;
+      font-family: 'Courier New', Courier, monospace;
+      padding: 2rem;
+      line-height: 1.7;
+    }
+    h1, h2 {
+      color: #91d6ff;
+    }
+    code {
+      background-color: #1c2a3a;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.95em;
+      color: #ffcb6b;
+    }
+    pre {
+      background-color: #1c2a3a;
+      padding: 1rem;
+      border-left: 4px solid #91d6ff;
+      overflow-x: auto;
+    }
+    .section {
+      margin-bottom: 3rem;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🐇 Rabbit Store - Writeup Técnico</h1>
+
+  <div class="section">
+    <h2>🧭 1. Descubrimiento de subdominios</h2>
+    <p>Descubrí el subdominio <code>storage.cloudsite.thm</code> y lo añadí al archivo <code>/etc/hosts</code> para poder resolverlo localmente.</p>
+    <pre><code>echo "10.10.X.X storage.cloudsite.thm" | sudo tee -a /etc/hosts</code></pre>
+  </div>
+
+  <div class="section">
+    <h2>🔐 2. Registro e inicio de sesión</h2>
+    <p>Desde la web me registré como nuevo usuario, pero la cuenta resultó estar inactiva, lo que sugiere un sistema de validación o activación manual.</p>
+  </div>
+
+  <div class="section">
+    <h2>🧪 3. Interceptando tokens JWT</h2>
+    <p>Mediante Burp Suite descubrí un token JWT tras iniciar sesión. El payload revelaba un campo <code>subscription: inactive</code>.</p>
+    <p>Modifiqué este valor a <code>active</code> para intentar desbloquear funciones restringidas.</p>
+  </div>
+
+  <div class="section">
+    <h2>🧱 4. Fuzzing de endpoints en la API</h2>
+    <p>Realicé un escaneo de rutas en <code>/api</code> con ffuf:</p>
+    <pre><code>ffuf -u http://storage.cloudsite.thm/api/FUZZ -w raft-small-words-lowercase.txt -fc 404</code></pre>
+    <p>Esto reveló <code>/uploads</code> y <code>/docs</code
