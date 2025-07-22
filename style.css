@@ -1,11 +1,11 @@
 :root {
-  --bg: #0f0f1b;
-  --text: #e2e8f0;
-  --muted: #64748b;
-  --primary: #8b5cf6;
-  --accent: #a78bfa;
-  --panel: rgba(25, 25, 40, 0.95);
-  --border: #2d2f4a;
+  --bg: #0a0a23;
+  --text: #f8f9fa;
+  --muted: #9ca3af;
+  --primary: #00f0ff;
+  --accent: #ff00aa;
+  --panel: rgba(20, 20, 40, 0.9);
+  --border: #20203a;
 }
 
 body {
@@ -72,7 +72,7 @@ nav a {
   font-size: 0.9rem;
   text-decoration: none;
   transition: all 0.2s ease;
-  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.25);
+  box-shadow: 0 4px 12px rgba(0, 240, 255, 0.25);
 }
 
 nav a:hover,
@@ -80,7 +80,7 @@ nav a:focus {
   background-color: var(--accent);
   color: var(--bg);
   transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(167, 139, 250, 0.4);
+  box-shadow: 0 6px 18px rgba(255, 0, 170, 0.4);
   outline: none;
 }
 
@@ -103,7 +103,7 @@ main {
 
 .card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 10px 30px rgba(139, 92, 246, 0.2);
+  box-shadow: 0 10px 30px rgba(255, 0, 170, 0.2);
 }
 
 .card h2,
