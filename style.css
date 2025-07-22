@@ -8,13 +8,27 @@
   --border: #20203a;
 }
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', sans-serif;
+}
+
 body {
   background-color: var(--bg);
   color: var(--text);
   line-height: 1.75;
   font-size: 16px;
-  font-family: 'Inter', sans-serif;
   -webkit-font-smoothing: antialiased;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
 }
 
 header {
@@ -63,25 +77,24 @@ nav {
 }
 
 nav a {
-  display: inline-block;
-  padding: 0.5rem 1rem;
-  background-color: var(--primary);
-  color: var(--bg);
-  font-weight: 600;
-  border-radius: 6px;
+  padding: 0.4rem 0.9rem;
+  border: 1px solid var(--primary);
+  color: var(--primary);
+  background: transparent;
+  font-weight: 500;
+  border-radius: 5px;
   font-size: 0.9rem;
   text-decoration: none;
   transition: all 0.2s ease;
-  box-shadow: 0 4px 12px rgba(0, 240, 255, 0.25);
 }
 
 nav a:hover,
 nav a:focus {
-  background-color: var(--accent);
+  background-color: var(--primary);
   color: var(--bg);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(255, 0, 170, 0.4);
   outline: none;
+  box-shadow: 0 0 8px var(--primary);
+  transform: translateY(-1px);
 }
 
 main {
