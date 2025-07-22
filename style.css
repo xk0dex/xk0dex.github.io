@@ -1,35 +1,20 @@
 :root {
-  --bg: #0b1e2d;
-  --text: #e8f1f8;
-  --muted: #94a3b8;
-  --primary: #38bdf8;
-  --panel: rgba(18, 39, 56, 0.9);
-  --border: #1e3a4c;
-  --hover: rgba(56, 189, 248, 0.1);
-}
-
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  font-family: 'Inter', sans-serif;
+  --bg: #0f0f1b;
+  --text: #e2e8f0;
+  --muted: #64748b;
+  --primary: #8b5cf6;
+  --accent: #a78bfa;
+  --panel: rgba(25, 25, 40, 0.95);
+  --border: #2d2f4a;
 }
 
 body {
   background-color: var(--bg);
   color: var(--text);
   line-height: 1.75;
-  backdrop-filter: blur(2px);
-  -webkit-font-smoothing: antialiased;
   font-size: 16px;
-}
-
-img {
-  max-width: 100%;
-  height: auto;
-  display: block;
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
 
 header {
@@ -49,7 +34,7 @@ header {
   border-radius: 50%;
   object-fit: cover;
   border: 2px solid var(--primary);
-  box-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
+  box-shadow: 0 0 12px var(--primary);
 }
 
 .intro {
@@ -58,7 +43,7 @@ header {
 }
 
 h1 {
-  font-size: 2rem;
+  font-size: 2.2rem;
   font-weight: 600;
   color: var(--primary);
   margin-bottom: 0.3rem;
@@ -78,19 +63,24 @@ nav {
 }
 
 nav a {
+  display: inline-block;
   padding: 0.5rem 1rem;
-  border: 1px solid var(--primary);
-  color: var(--primary);
-  text-decoration: none;
+  background-color: var(--primary);
+  color: var(--bg);
+  font-weight: 600;
   border-radius: 6px;
   font-size: 0.9rem;
+  text-decoration: none;
   transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.25);
 }
 
 nav a:hover,
 nav a:focus {
-  background-color: var(--primary);
+  background-color: var(--accent);
   color: var(--bg);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(167, 139, 250, 0.4);
   outline: none;
 }
 
@@ -106,14 +96,14 @@ main {
   border-radius: 12px;
   margin-bottom: 2rem;
   border: 1px solid var(--border);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(4px);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  backdrop-filter: blur(3px);
 }
 
 .card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 10px 30px rgba(56, 189, 248, 0.2);
+  box-shadow: 0 10px 30px rgba(139, 92, 246, 0.2);
 }
 
 .card h2,
@@ -133,7 +123,7 @@ ul li {
 }
 
 a {
-  color: var(--primary);
+  color: var(--accent);
   text-decoration: none;
 }
 
@@ -149,13 +139,12 @@ footer {
   font-size: 0.85rem;
   color: var(--muted);
   border-top: 1px solid var(--border);
-  background-color: var(--bg);
 }
 
 /* Responsive */
 @media (max-width: 600px) {
   h1 {
-    font-size: 1.6rem;
+    font-size: 1.7rem;
   }
 
   nav {
