@@ -1,76 +1,112 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Portafolio de Daniel Moreno Fernández (h4cksito) - Apasionado por la ciberseguridad y el hacking ético.">
-  <title>Daniel Moreno Fernández | h4cksito</title>
-  <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>H4XLang — Lenguaje seguro por diseño</title>
+  <meta name="description" content="H4XLang: lenguaje de programación seguro por diseño con memoria protegida, efectos controlados y compilación a Wasm/LLVM."/>
+  <link rel="icon" href="./assets/logo.svg"/>
+  <link rel="stylesheet" href="./style.css"/>
 </head>
 <body>
   <header>
-    <div class="container">
-      <img src="IMG_6168.jpeg" alt="Foto de Daniel Moreno Fernández" class="profile-pic" />
-      <div class="intro">
-        <h1>Daniel Moreno Fernández</h1>
-        <p class="lead">Apasionado de la ciberseguridad • Alias <strong>h4cksito</strong></p>
-        <nav aria-label="Menú principal">
-          <nav>
-           <a href="#about">Sobre mí</a>
-           <a href="auditorias.html">Auditorías</a>
-           <a href="https://tryhackme.com/p/h4cksito">Tryhackme</a>
-           <a href="#training">Formación</a>
-           <a href="write.html">Writeups</a>
-           <a href="#now">En progreso</a>
-           <a href="#contact">Contacto</a>
-          </nav>
+    <div class="container hero">
+      <div>
+        <div class="tag">Proyecto nuevo · Actualizado 2025-08-15</div>
+        <h1>H4XLang — Lenguaje seguro por diseño</h1>
+        <p>Objetivo realista: reducir el riesgo a lo mínimo con <strong>propiedad de memoria</strong>, <strong>efectos controlados</strong>, <strong>assets tipados</strong> y verificación automática. No prometemos lo imposible (“inhackeable”), entregamos ingeniería seria.</p>
+        <div class="cta">
+          <a class="button primary" href="./docs/SPEC.md">Ver especificación (Markdown)</a>
+          <a class="button" href="./assets/logo.svg" download>Descargar logo</a>
+        </div>
+      </div>
+      <div class="logo" aria-hidden="true">
+        
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-label="H4XLang Logo">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#60a5fa"/>
+      <stop offset="1" stop-color="#7c3aed"/>
+    </linearGradient>
+  </defs>
+  <rect width="160" height="160" rx="22" fill="#0f172a"/>
+  <path d="M28 120 L80 30 L132 120 Z" fill="url(#g)"/>
+  <text x="80" y="128" text-anchor="middle" fill="#e5e7eb" font-family="monospace" font-size="20">H4X</text>
+</svg>
+
       </div>
     </div>
   </header>
 
-  <main class="container">
-    <section id="about" class="card" aria-label="Sobre mí">
-      <h2>Sobre mí</h2>
-      <p>Soy <strong>Daniel</strong>, estudiante de <em>hacking ético</em> con el objetivo de convertirme en <strong>pentester profesional</strong>. Disfruto explorando vulnerabilidades reales de forma legal y documentando lo aprendido para compartirlo con la comunidad.</p>
-    </section>
+  <section>
+    <div class="container grid">
+      <div class="card">
+        <h3>Memoria blindada</h3>
+        <p>Modelo de <em>ownership</em> y tipos lineales para evitar <em>buffer overflows</em>, dobles liberaciones y demás clásicos.</p>
+      </div>
+      <div class="card">
+        <h3>Efectos controlados</h3>
+        <p>El compilador restringe I/O, red y fs mediante tipos de efecto. Nada de sorpresas fuera de contrato.</p>
+      </div>
+      <div class="card">
+        <h3>Interoperable</h3>
+        <p>Compila a <strong>Wasm</strong> (web/edge) y <strong>LLVM</strong> (nativo). FFI simple con C y SDKs para TS/Python.</p>
+      </div>
+      <div class="card">
+        <h3>Verificable</h3>
+        <p>Especificaciones ligeras en el propio código con soporte para SMT (contratos, invariantes, pre/post condiciones).</p>
+      </div>
+    </div>
+  </section>
 
-    <section id="training" class="card" aria-label="Formación">
-      <h2>Formación</h2>
-      <ul>
-        <li>Rutas <strong>Junior Penetration Tester</strong> y <strong>Web Application Security</strong> en TryHackMe</li>
-        <li>Especialización en <em>escalada de privilegios</em> y <em>seguridad web</em></li>
-      </ul>
-    </section>
+  <section>
+    <div class="container">
+      <h2 class="section-title">Ejemplo de código</h2>
+      <pre id="snippet"><code>// Tipos de activos y permisos explícitos
+asset Coin { amount: u64 }
+capability Move&lt;Coin&gt;
 
-    <section id="certificate" class="card" aria-label="Certificaciones">
-      <h2>Certificaciones</h2>
-      <p>Certificación <a href="https://tryhackme-certificates.s3-eu-west-1.amazonaws.com/THM-FBSSONOKEI.pdf" target="_blank" rel="noopener noreferrer"><strong>Jr Penetration Tester</strong></a> 29/06/2025</p>
-      <p>Certificación <a href="https://tryhackme-certificates.s3-eu-west-1.amazonaws.com/THM-0IRVOB3JPI.png" target="_blank" rel="noopener noreferrer"><strong>Web Fundamentals</strong></a> 23/07/2025</p>
-    </section>
+fn pay(to: Address, v: Coin) requires Move&lt;Coin&gt; {
+  ledger.transfer(to, consume v) // No se puede duplicar ni perder el activo
+}
 
-    <section id="now" class="card" aria-label="En progreso">
-      <h2>En progreso</h2>
-      <ul>
-        <li>Preparación intensiva para el <strong>eJPT</strong></li>
-        <li>Documentar nuevas máquinas de <strong>TryHackMe</strong></li>
-        <li>Perfeccionar <em>red teaming</em> y evasión de defensas</li>
-      </ul>
-    </section>
+fn sum(a: u32, b: u32) -> u32 pure {
+  a + b // sin efectos laterales
+}</code></pre>
+      <button class="button" data-copy="snippet" onclick="copyText('snippet')">Copiar ejemplo</button>
+    </div>
+  </section>
 
-    <section id="contact" class="card" aria-label="Contacto">
-      <h2>Contacto</h2>
-      <p>
-        Correo: <a href="mailto:h4cksito@proton.me">h4cksito@proton.me</a><br />
-        Twitter: <a href="https://twitter.com/h4cksito" target="_blank" rel="noopener noreferrer">@h4cksito</a><br />
-        Linkedin: <a href="https://www.linkedin.com/in/danielmoref" target="_blank" rel="noopener noreferrer">Daniel Moreno Fernández</a>
-      </p>
-    </section>
-  </main>
+  <section>
+    <div class="container">
+      <h2 class="section-title">Hoja de ruta (90 días)</h2>
+      <div class="grid">
+        <div class="card"><strong>Semanas 1–2</strong><br/>Especificación mínima · Gramática · Diseño stdlib</div>
+        <div class="card"><strong>Semanas 3–6</strong><br/>Parser/AST · Type-checker (ownership/efectos) · Backend Wasm MVP</div>
+        <div class="card"><strong>Semanas 7–9</strong><br/>Cripto segura · FFI C · Builds reproducibles</div>
+        <div class="card"><strong>Semanas 10–12</strong><br/>Verificador SMT · Registro de paquetes (alpha) · Extensión VSCode</div>
+      </div>
+      <p class="small">Nota: metas “seguridad de salida” en <a href="./docs/SPEC.md#criterios-de-seguridad-de-salida">la SPEC</a>.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <h2 class="section-title">FAQ</h2>
+      <div class="grid">
+        <div class="card"><strong>¿Es “inhackeable”?</strong><br/>No. Reducimos la superficie y aplicamos verificación y sandboxing para bajar el riesgo.</div>
+        <div class="card"><strong>¿Funciona con todo?</strong><br/>Wasm/LLVM como targets base, y bindings a C/TS/Python. Migraciones graduales, no “big bang”.</div>
+        <div class="card"><strong>¿Cómo monetiza?</strong><br/>Cloud pro (build/verify), sello “Verified” para paquetes y soporte enterprise.</div>
+      </div>
+    </div>
+  </section>
 
   <footer>
-    <p>© 2025 Daniel Moreno Fernández</p>
+    <div class="container">
+      <span>© 2025 H4XLang · Proyecto de h4cksito</span>
+    </div>
   </footer>
+
+  <script src="./app.js"></script>
 </body>
 </html>
