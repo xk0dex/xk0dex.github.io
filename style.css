@@ -1,11 +1,12 @@
 :root {
-  --bg: #0a0a0a;           /* Fondo negro absoluto */
-  --text: #e5e5e5;         /* Texto principal gris claro */
-  --muted: #888888;        /* Texto secundario gris medio */
-  --primary: #f0f0f0;      /* Blanco suave para títulos y botones */
-  --accent: #cfcfcf;       /* Gris muy claro para hover */
-  --panel: #111111;        /* Tarjetas/paneles */
-  --border: #2c2c2c;       /* Bordes discretos */
+  --bg: #0a0a0a;
+  --text: #e5e5e5;
+  --muted: #888;
+  --primary: #f0f0f0;
+  --accent: #cfcfcf;
+  --panel: #111;
+  --border: #2c2c2c;
+  --shadow: rgba(255, 255, 255, 0.08);
 }
 
 *,
@@ -31,12 +32,6 @@ img {
   display: block;
 }
 
-.logo {
-  max-width: 260px;
-  margin: 2rem auto 1rem;
-  display: block;
-}
-
 header {
   padding: 1rem;
   text-align: center;
@@ -45,13 +40,18 @@ header {
 }
 
 .profile-pic {
-  width: 100px;
-  height: 100px;
+  width: 110px;
+  height: 110px;
   border-radius: 50%;
   object-fit: cover;
   border: 2px solid var(--primary);
   margin: 1rem auto;
-  box-shadow: 0 0 8px rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 12px var(--shadow);
+  transition: transform 0.3s ease;
+}
+
+.profile-pic:hover {
+  transform: scale(1.05);
 }
 
 .intro {
@@ -60,7 +60,7 @@ header {
 }
 
 h1 {
-  font-size: 2rem;
+  font-size: 2.2rem;
   font-weight: 600;
   color: var(--primary);
   margin-bottom: 0.3rem;
@@ -85,10 +85,10 @@ nav a {
   color: var(--primary);
   background: transparent;
   font-weight: 500;
-  border-radius: 5px;
+  border-radius: 6px;
   font-size: 0.9rem;
   text-decoration: none;
-  transition: all 0.2s ease;
+  transition: all 0.25s ease;
 }
 
 nav a:hover,
@@ -96,7 +96,7 @@ nav a:focus {
   background-color: var(--primary);
   color: var(--bg);
   outline: none;
-  box-shadow: 0 0 6px var(--primary);
+  box-shadow: 0 0 8px var(--primary);
   transform: translateY(-1px);
 }
 
@@ -114,17 +114,16 @@ main {
   border: 1px solid var(--border);
   box-shadow: 0 4px 14px rgba(255, 255, 255, 0.03);
   backdrop-filter: blur(2px);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.08);
+  box-shadow: 0 6px 20px var(--shadow);
 }
 
-.card h2,
-.card h3 {
-  font-size: 1.3rem;
+.card h2 {
+  font-size: 1.4rem;
   margin-bottom: 1rem;
   color: var(--primary);
 }
