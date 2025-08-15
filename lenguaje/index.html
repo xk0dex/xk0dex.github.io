@@ -21,19 +21,17 @@
         </div>
       </div>
       <div class="logo" aria-hidden="true">
-        
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-label="H4XLang Logo">
-  <defs>
-    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#60a5fa"/>
-      <stop offset="1" stop-color="#7c3aed"/>
-    </linearGradient>
-  </defs>
-  <rect width="160" height="160" rx="22" fill="#0f172a"/>
-  <path d="M28 120 L80 30 L132 120 Z" fill="url(#g)"/>
-  <text x="80" y="128" text-anchor="middle" fill="#e5e7eb" font-family="monospace" font-size="20">H4X</text>
-</svg>
-
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-label="H4XLang Logo">
+          <defs>
+            <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#60a5fa"/>
+              <stop offset="1" stop-color="#7c3aed"/>
+            </linearGradient>
+          </defs>
+          <rect width="160" height="160" rx="22" fill="#0f172a"/>
+          <path d="M28 120 L80 30 L132 120 Z" fill="url(#g)"/>
+          <text x="80" y="128" text-anchor="middle" fill="#e5e7eb" font-family="monospace" font-size="20">H4X</text>
+        </svg>
       </div>
     </div>
   </header>
@@ -97,6 +95,20 @@ fn sum(a: u32, b: u32) -> u32 pure {
         <div class="card"><strong>¿Es “inhackeable”?</strong><br/>No. Reducimos la superficie y aplicamos verificación y sandboxing para bajar el riesgo.</div>
         <div class="card"><strong>¿Funciona con todo?</strong><br/>Wasm/LLVM como targets base, y bindings a C/TS/Python. Migraciones graduales, no “big bang”.</div>
         <div class="card"><strong>¿Cómo monetiza?</strong><br/>Cloud pro (build/verify), sello “Verified” para paquetes y soporte enterprise.</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <h2 class="section-title">Casos de uso</h2>
+      <div class="grid">
+        <div class="card"><strong>Cripto & Exchanges</strong><br/>Activos tipados y permisos evitan duplicaciones y fugas.</div>
+        <div class="card"><strong>SaaS regulado</strong><br/>Efectos controlados + SBOM → cumplimiento más fácil.</div>
+        <div class="card"><strong>Plugins seguros (Wasm)</strong><br/>Sandbox fuerte: aísla fallos y protege el host.</div>
+        <div class="card"><strong>Industrial/IoT</strong><br/>Sin UAF/overflow y binarios pequeños auditables.</div>
+        <div class="card"><strong>Finanzas</strong><br/>Invariantes verificables: límites y saldos garantizados.</div>
+        <div class="card"><strong>Blockchain</strong><br/>Plantillas seguras contra reentrancy y errores de permisos.</div>
       </div>
     </div>
   </section>
