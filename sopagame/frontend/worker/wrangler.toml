@@ -1,0 +1,16 @@
+name = "sopa-worker"
+main = "src/index.js"
+compatibility_date = "2025-08-24"
+
+# ⚠️ Rellena estos IDs tras crear los recursos en Cloudflare
+[[d1_databases]]
+binding = "DB"
+database_name = "sopa-db"
+database_id = "RELLENA_D1_ID"
+
+[[kv_namespaces]]
+binding = "KV"
+id = "RELLENA_KV_ID"
+
+[triggers]
+crons = ["0 0 * * *"] # 00:00 UTC
