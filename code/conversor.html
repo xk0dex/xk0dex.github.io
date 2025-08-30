@@ -248,7 +248,9 @@ MD: | id | name |
       const lines = [];
       lines.push('|' + rows[0].map((c,i)=>pad(c,widths[i])).join('|') + '|');
       lines.push(sep);
-      for(let i=1;i<rows.length;i++) lines.push('|' + rows[i].map((c,i2)=>pad(c,widths[i2])).join('|') + '|');
+      for(let rowIdx=1; rowIdx<rows.length; rowIdx++) {
+        lines.push('|' + rows[rowIdx].map((c,colIdx)=>pad(c,widths[colIdx])).join('|') + '|');
+      }
       return lines.join('\n');
     }
 
@@ -317,10 +319,34 @@ MD: | id | name |
       const tmpFmt = els.fmtIn.value; els.fmtIn.value = els.fmtOut.value; els.fmtOut.value = tmpFmt;
       convert();
     });
-    els.copyOut.addEventListener('click', ()=>{
-      els.output.select(); document.execCommand('copy');
-      els.statusOut.textContent = 'Salida copiada al portapapeles';
-      els.statusOut.className='status ok';
+    els.copyOut.addEventListener('click', async ()=>{
+      try {
+        await navigator.clipboard.writeText(els.output.value);
+        els.statusOut.textContent = 'Salida copiada al portapapeles ✓';
+        els.statusOut.className='status ok';
+        // Resetear mensaje después de 2 segundos
+        setTimeout(() => {
+          if (els.statusOut.textContent === 'Salida copiada al portapapeles ✓') {
+            els.statusOut.textContent = `Salida: ${els.fmtOut.value.toUpperCase()} · ${els.output.value.length} caracteres`;
+          }
+        }, 2000);
+      } catch (err) {
+        // Fallback para navegadores antiguos
+        els.output.select();
+        try {
+          document.execCommand('copy');
+          els.statusOut.textContent = 'Salida copiada al portapapeles ✓';
+          els.statusOut.className='status ok';
+          setTimeout(() => {
+            if (els.statusOut.textContent === 'Salida copiada al portapapeles ✓') {
+              els.statusOut.textContent = `Salida: ${els.fmtOut.value.toUpperCase()} · ${els.output.value.length} caracteres`;
+            }
+          }, 2000);
+        } catch (fallbackErr) {
+          els.statusOut.textContent = 'Error al copiar: ' + fallbackErr.message;
+          els.statusOut.className='status err';
+        }
+      }
     });
     els.downloadOut.addEventListener('click', ()=>{
       const mapExt = { json:'json', csv:'csv', md:'md' };
