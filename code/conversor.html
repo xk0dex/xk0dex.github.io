@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Conversor de Datos · Retro Console</title>
+  <meta name="description" content="Herramienta offline para convertir datos entre JSON, CSV y Markdown (tabla) con estética de consola retro." />
+  <meta name="theme-color" content="#000000" />
+  <style>
+    :root{
+      --bg:#000;--text:#00ff7b;--dim:#0a804f;--link:#7bffc1;--accent:#39ff14;--border:#1efc6d;
+      --error:#ff6b6b;--warn:#ffd166;--ok:#7bfd9a;
+      --glow: 0 0 12px rgba(57,255,20,.35), 0 0 48px rgba(57,255,20,.08);
+      --scan: linear-gradient(rgba(255,255,255,.03),rgba(0,0,0,0) 2px) 0 0/100% 4px;
+    }
+    .amber{--text:#ffcc66;--dim:#a9792c;--link:#ffdca2;--accent:#ffb100;--border:#ffb100}
+    .light{--bg:#0f1115;--text:#e6edf3;--dim:#6e7681;--link:#91cbff;--accent:#58a6ff;--border:#2f81f7;--error:#ff7b86}
+
+    html,body{height:100%}
+    body{margin:0;background:var(--bg);color:var(--text);font:14px/1.6 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "JetBrains Mono","Liberation Mono","Courier New", monospace}
+    a{color:var(--link);text-decoration:none;border-bottom:1px dotted var(--link)}
+    .crt{min-height:100%;display:flex;align-items:center;justify-content:center;padding:20px;position:relative;overflow:hidden}
+    .crt::before{content:"";position:absolute;inset:0;background:var(--scan);pointer-events:none;mix-blend-mode:soft-light;opacity:.35}
+
+    .console{position:relative;max-width:1200px;width:100%;border:1px solid var(--border);border-radius:16px;box-shadow:inset 0 0 60px rgba(0,255,100,.08), var(--glow);padding:16px;background:radial-gradient(1200px 600px at 50% 0%, rgba(57,255,20,.06), transparent 60%), linear-gradient(180deg, rgba(57,255,20,.04), transparent 30%)}
+
+    .header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}
+    .brand{display:flex;align-items:center;gap:12px}
+    .led{width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 10px var(--accent),0 0 30px rgba(57,255,20,.6)}
+    h1{margin:0;font-size:17px;letter-spacing:.08em;text-transform:uppercase}
+    .sub{color:var(--dim);font-size:12px;margin-top:2px}
+
+    .toolbar{display:flex;flex-wrap:wrap;gap:8px}
+    .btn, select{border:1px solid var(--border);background:transparent;color:var(--text);padding:6px 10px;border-radius:10px;cursor:pointer}
+    .btn:hover{background:rgba(0,255,100,.06)}
+    .seg{display:flex;gap:6px;align-items:center}
+    label{color:var(--dim)}
+
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px}
+    .panel{display:flex;flex-direction:column;gap:8px;border:1px dashed color-mix(in oklab, var(--border), transparent 40%);border-radius:12px;padding:10px;background:rgba(0,0,0,.35)}
+    .panel h2{margin:0;font-size:13px;color:var(--dim)}
+    textarea{min-height:360px;resize:vertical;background:transparent;border:1px solid color-mix(in oklab, var(--border), transparent 40%);border-radius:10px;color:var(--text);padding:10px;outline:none;font:inherit}
+
+    .status{display:flex;align-items:center;gap:8px;margin-top:6px;font-size:12px}
+    .status.ok{color:var(--ok)}
+    .status.err{color:var(--error)}
+
+    .footer{margin-top:10px;color:var(--dim);font-size:12px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+
+    @media (max-width:900px){.grid{grid-template-columns:1fr} textarea{min-height:280px}}
+  </style>
+</head>
+<body>
+  <div class="crt">
+    <div class="console">
+      <div class="header">
+        <div class="brand">
+          <span class="led" aria-hidden="true"></span>
+          <div>
+            <h1>Conversor de Datos · Retro Console</h1>
+            <div class="sub">JSON ⇄ CSV ⇄ Markdown (tabla) · 100% offline</div>
+          </div>
+        </div>
+        <div class="toolbar">
+          <div class="seg">
+            <label for="theme">Tema</label>
+            <select id="theme">
+              <option value="default">Verde</option>
+              <option value="amber">Ámbar</option>
+              <option value="light">Claro</option>
+            </select>
+          </div>
+          <button class="btn" id="swap">↔ Intercambiar</button>
+          <button class="btn" id="convert">Convertir</button>
+          <button class="btn" id="copyOut">Copiar salida</button>
+          <button class="btn" id="downloadOut">Descargar</button>
+        </div>
+      </div>
+
+      <div class="grid">
+        <section class="panel">
+          <h2>Entrada</h2>
+          <div class="seg">
+            <label for="fmtIn">Formato</label>
+            <select id="fmtIn">
+              <option value="auto">Auto</option>
+              <option value="json">JSON</option>
+              <option value="csv">CSV</option>
+              <option value="md">Markdown</option>
+            </select>
+            <label for="delimIn">Delimitador CSV</label>
+            <select id="delimIn">
+              <option value=",">,</option>
+              <option value=";">;</option>
+              <option value="\t">Tab</option>
+            </select>
+          </div>
+          <textarea id="input" placeholder='Ejemplos:
+JSON: [{"id":1,"name":"Ada"},{"id":2,"name":"Linus"}]
+CSV: id,name
+1,Ada
+2,Linus
+MD: | id | name |
+|---|---|
+| 1 | Ada |'></textarea>
+          <div class="status" id="statusIn">Listo.</div>
+        </section>
+
+        <section class="panel">
+          <h2>Salida</h2>
+          <div class="seg">
+            <label for="fmtOut">Formato</label>
+            <select id="fmtOut">
+              <option value="csv">CSV</option>
+              <option value="json">JSON</option>
+              <option value="md">Markdown</option>
+            </select>
+            <label for="delimOut">Delimitador CSV</label>
+            <select id="delimOut">
+              <option value=",">,</option>
+              <option value=";">;</option>
+              <option value="\t">Tab</option>
+            </select>
+            <label for="pretty">Pretty JSON</label>
+            <select id="pretty">
+              <option value="2">2</option>
+              <option value="0">minificado</option>
+            </select>
+          </div>
+          <textarea id="output" placeholder="Aquí verás el resultado…"></textarea>
+          <div class="status" id="statusOut">Esperando conversión…</div>
+        </section>
+      </div>
+
+      <div class="footer">
+        <div>Atajos: Ctrl+Enter convertir · Ctrl+L limpiar entrada · Ctrl+Shift+L limpiar salida</div>
+        <div>© <span id="year"></span> xk0dex</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ---------- Utilidades UI ----------
+    const $ = sel => document.querySelector(sel);
+    const els = {
+      theme: $('#theme'), swap: $('#swap'), convert: $('#convert'), copyOut: $('#copyOut'), downloadOut: $('#downloadOut'),
+      fmtIn: $('#fmtIn'), fmtOut: $('#fmtOut'), delimIn: $('#delimIn'), delimOut: $('#delimOut'), pretty: $('#pretty'),
+      input: $('#input'), output: $('#output'), statusIn: $('#statusIn'), statusOut: $('#statusOut'), year: $('#year')
+    };
+    els.year.textContent = new Date().getFullYear();
+
+    function setTheme(t){
+      document.body.classList.remove('amber','light');
+      if(t==='amber') document.body.classList.add('amber');
+      if(t==='light') document.body.classList.add('light');
+      localStorage.setItem('conv_theme', t);
+      els.theme.value = t;
+    }
+    setTheme(localStorage.getItem('conv_theme')||'default');
+
+    // ---------- Detección de formato ----------
+    function detectFormat(text){
+      const s = text.trim();
+      if(!s) return 'auto';
+      if(s[0]==='{' || s[0]==='[') return 'json';
+      if(/^\|.*\|/m.test(s) && /\n\|?\s*:?-{3,}/m.test(s)) return 'md';
+      return 'csv';
+    }
+
+    // ---------- CSV Parser/Stringifier (simple, con comillas) ----------
+    function parseCSV(str, delim=','){
+      const rows=[]; let cur=''; let row=[]; let inQ=false; let i=0;
+      for(; i<str.length; i++){
+        const c=str[i];
+        if(inQ){
+          if(c==='"'){
+            if(str[i+1]==='"'){ cur+='"'; i++; }
+            else inQ=false;
+          } else cur+=c;
+        } else {
+          if(c==='"') inQ=true;
+          else if(c===delim) { row.push(cur); cur=''; }
+          else if(c==='\n'){ row.push(cur); rows.push(row); row=[]; cur=''; }
+          else if(c==='\r'){ /* ignore */ }
+          else cur+=c;
+        }
+      }
+      row.push(cur); rows.push(row);
+      // Normaliza: elimina fila vacía final si procede
+      if(rows.length && rows[rows.length-1].every(x=>x==='')) rows.pop();
+      return rows;
+    }
+
+    function toCSV(rows, delim=','){
+      return rows.map(r=>r.map(f=>{
+        f = f==null? '' : String(f);
+        const need = f.includes('"')||f.includes('\n')||f.includes(delim);
+        if(need) f='"'+f.replace(/"/g,'""')+'"';
+        return f;
+      }).join(delim)).join('\n');
+    }
+
+    // ---------- Transformaciones ----------
+    function jsonToRows(json){
+      if(Array.isArray(json)){
+        if(json.length===0) return [[]];
+        if(typeof json[0] === 'object' && json[0] !== null){
+          const keys = Array.from(json.reduce((s,o)=>{Object.keys(o).forEach(k=>s.add(k));return s;}, new Set()));
+          const rows = [keys, ...json.map(o=>keys.map(k=> o!=null && Object.prototype.hasOwnProperty.call(o,k) ? o[k] : ''))];
+          return rows;
+        } else {
+          // array de primitivos -> una columna "value"
+          return [['value'], ...json.map(v=>[v])];
+        }
+      } else if(typeof json==='object' && json!==null){
+        const keys = Object.keys(json);
+        return [['key','value'], ...keys.map(k=>[k, json[k]])];
+      }
+      return [['value'], [json]];
+    }
+
+    function rowsToJson(rows){
+      if(!rows.length) return [];
+      const header = rows[0];
+      const objs = rows.slice(1).map(r=>{
+        const o={};
+        header.forEach((k,idx)=>{ o[k] = r[idx]!==undefined ? rowsCoerce(r[idx]) : '' });
+        return o;
+      });
+      return objs;
+    }
+
+    function rowsCoerce(v){
+      // intenta convertir números/booleanos
+      const s = String(v).trim();
+      if(s==='' ) return '';
+      if(/^true|false$/i.test(s)) return /^true$/i.test(s);
+      if(!isNaN(Number(s))) return Number(s);
+      return v;
+    }
+
+    function rowsToMarkdown(rows){
+      if(!rows.length) return '';
+      const widths = [];
+      rows.forEach(r=> r.forEach((c,i)=>{ widths[i] = Math.max(widths[i]||0, String(c??'').length)}));
+      const pad = (s,w)=> String(s??'').padEnd(w,' ');
+      const sep = '|' + widths.map(w=>'-'.repeat(Math.max(3,w))).join('|') + '|';
+      const lines = [];
+      lines.push('|' + rows[0].map((c,i)=>pad(c,widths[i])).join('|') + '|');
+      lines.push(sep);
+      for(let i=1;i<rows.length;i++) lines.push('|' + rows[i].map((c,i2)=>pad(c,widths[i2])).join('|') + '|');
+      return lines.join('\n');
+    }
+
+    function markdownToRows(md){
+      const lines = md.split(/\r?\n/).filter(l=>l.trim().startsWith('|'));
+      if(lines.length<2) return [];
+      const parseLine = l => l.trim().replace(/^\||\|$/g,'').split('|').map(s=>s.trim());
+      const header = parseLine(lines[0]);
+      const rows = [];
+      for(let i=2;i<lines.length;i++){ rows.push(parseLine(lines[i])); }
+      return [header, ...rows];
+    }
+
+    // ---------- Pipeline ----------
+    function convert(){
+      const src = els.input.value;
+      const inFmt = (els.fmtIn.value==='auto'? detectFormat(src): els.fmtIn.value);
+      const outFmt = els.fmtOut.value;
+      const dIn = els.delimIn.value === '\\t' ? '\t' : els.delimIn.value;
+      const dOut = els.delimOut.value === '\\t' ? '\t' : els.delimOut.value;
+      els.statusIn.className='status'; els.statusOut.className='status';
+      try{
+        let rows=[]; let json=null;
+        if(inFmt==='json'){
+          json = JSON.parse(src);
+          rows = jsonToRows(json);
+        } else if(inFmt==='csv'){
+          rows = parseCSV(src, dIn);
+        } else if(inFmt==='md'){
+          rows = markdownToRows(src);
+        } else {
+          // auto
+          const guess = detectFormat(src);
+          if(guess==='json'){ json = JSON.parse(src); rows = jsonToRows(json); }
+          else if(guess==='md'){ rows = markdownToRows(src); }
+          else { rows = parseCSV(src, dIn); }
+        }
+
+        let out='';
+        if(outFmt==='json'){
+          const obj = rowsToJson(rows);
+          const space = Number(els.pretty.value||0);
+          out = JSON.stringify(obj, null, space);
+        } else if(outFmt==='csv'){
+          out = toCSV(rows, dOut);
+        } else if(outFmt==='md'){
+          out = rowsToMarkdown(rows);
+        }
+        els.output.value = out;
+        els.statusIn.textContent = `Entrada: ${inFmt.toUpperCase()} · OK`;
+        els.statusIn.classList.add('ok');
+        els.statusOut.textContent = `Salida: ${outFmt.toUpperCase()} · ${out.length} caracteres`;
+        els.statusOut.classList.add('ok');
+      } catch(err){
+        els.statusIn.textContent = 'Error: ' + (err && err.message || err);
+        els.statusIn.classList.add('err');
+        els.statusOut.textContent = 'Conversión fallida.';
+        els.statusOut.classList.add('err');
+      }
+    }
+
+    // ---------- Acciones ----------
+    els.convert.addEventListener('click', convert);
+    els.swap.addEventListener('click', ()=>{
+      const tmp = els.input.value; els.input.value = els.output.value; els.output.value = tmp;
+      const tmpFmt = els.fmtIn.value; els.fmtIn.value = els.fmtOut.value; els.fmtOut.value = tmpFmt;
+      convert();
+    });
+    els.copyOut.addEventListener('click', ()=>{
+      els.output.select(); document.execCommand('copy');
+      els.statusOut.textContent = 'Salida copiada al portapapeles';
+      els.statusOut.className='status ok';
+    });
+    els.downloadOut.addEventListener('click', ()=>{
+      const mapExt = { json:'json', csv:'csv', md:'md' };
+      const ext = mapExt[els.fmtOut.value]||'txt';
+      const blob = new Blob([els.output.value], {type:'text/plain;charset=utf-8'});
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `convert.${ext}`;
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(()=>URL.revokeObjectURL(a.href), 1000);
+    });
+
+    // Atajos
+    window.addEventListener('keydown',(e)=>{
+      if(e.ctrlKey && e.key==='Enter'){ e.preventDefault(); convert(); }
+      if(e.ctrlKey && e.key.toLowerCase()==='l' && !e.shiftKey){ e.preventDefault(); els.input.value=''; els.statusIn.textContent='Entrada limpia.' }
+      if(e.ctrlKey && e.key.toLowerCase()==='l' && e.shiftKey){ e.preventDefault(); els.output.value=''; els.statusOut.textContent='Salida limpia.' }
+    });
+
+    // Autodetección al pegar
+    els.input.addEventListener('input', ()=>{
+      const f = detectFormat(els.input.value); if(els.fmtIn.value==='auto'){ els.statusIn.textContent = `Detectado: ${f.toUpperCase()}`; }
+    });
+
+    // Ayuda rápida de inicio
+    els.input.value = '[{"id":1,"name":"Ada"},{"id":2,"name":"Linus"}]';
+    convert();
+  </script>
+</body>
+</html>
