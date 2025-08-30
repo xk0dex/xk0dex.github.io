@@ -1,4 +1,31 @@
+/* =========================
+   Retro Console / CRT Theme
+   ========================= */
+
+/* Tema por defecto (verde) */
 :root {
+  --bg: #000000;
+  --text: #00ff7b;
+  --muted: #0a804f;
+  --primary: #1efc6d;
+  --accent: #39ff14;
+  --panel: #0a0f0a;
+  --border: #1efc6d;
+  --shadow: rgba(57, 255, 20, 0.15);
+
+  /* Efectos CRT */
+  --glow: 0 0 12px rgba(57, 255, 20, .35), 0 0 48px rgba(57, 255, 20, .08);
+  --scanlines: repeating-linear-gradient(
+    0deg,
+    rgba(255,255,255,.03),
+    rgba(255,255,255,.03) 2px,
+    rgba(0,0,0,0) 2px,
+    rgba(0,0,0,0) 4px
+  );
+}
+
+/* Tema ámbar (tu paleta original) */
+.theme-amber {
   --bg: #1a1000;
   --text: #ffcc66;
   --muted: #a9792c;
@@ -7,15 +34,48 @@
   --panel: #261a00;
   --border: #ffb100;
   --shadow: rgba(255, 177, 0, 0.15);
+  --glow: 0 0 12px rgba(255, 177, 0, .35), 0 0 48px rgba(255, 177, 0, .08);
+  --scanlines: repeating-linear-gradient(
+    0deg,
+    rgba(255,255,255,.04),
+    rgba(255,255,255,.04) 2px,
+    rgba(0,0,0,0) 2px,
+    rgba(0,0,0,0) 4px
+  );
 }
 
+/* Tema claro opcional */
+.theme-light {
+  --bg: #0f1115;
+  --text: #e6edf3;
+  --muted: #6e7681;
+  --primary: #58a6ff;
+  --accent: #91cbff;
+  --panel: #0d1117;
+  --border: #2f81f7;
+  --shadow: rgba(47, 129, 247, 0.18);
+  --glow: 0 0 12px rgba(47, 129, 247, .35), 0 0 48px rgba(47, 129, 247, .08);
+  --scanlines: repeating-linear-gradient(
+    0deg,
+    rgba(255,255,255,.02),
+    rgba(255,255,255,.02) 2px,
+    rgba(0,0,0,0) 2px,
+    rgba(0,0,0,0) 4px
+  );
+}
+
+/* Reset básico + tipografía monoespaciada estilo terminal */
 *,
 *::before,
 *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: 'Inter', sans-serif;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "JetBrains Mono", "Liberation Mono", "Courier New", monospace;
+}
+
+html, body {
+  height: 100%;
 }
 
 body {
@@ -24,154 +84,202 @@ body {
   line-height: 1.75;
   font-size: 16px;
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  /* leve resplandor general */
+  box-shadow: inset 0 0 60px rgba(0, 255, 100, 0.05);
 }
 
-img {
-  max-width: 100%;
-  height: auto;
-  display: block;
+/* Contenedor CRT con líneas de escaneo y borde brillante */
+.crt-wrap {
+  min-height: 100%;
+  position: relative;
+  overflow: hidden;
+  padding: 16px;
+}
+.crt-wrap::before {
+  content: "";
+  position: absolute; inset: 0;
+  background: var(--scanlines);
+  mix-blend-mode: soft-light;
+  opacity: .35;
+  pointer-events: none;
+}
+.crt-panel {
+  max-width: 920px;
+  margin: 0 auto;
+  background: radial-gradient(1200px 600px at 50% 0%, rgba(57,255,20,.06), transparent 60%),
+              linear-gradient(180deg, rgba(57,255,20,.04), transparent 30%);
+  background-color: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: inset 0 0 60px rgba(0,255,100,.08), var(--glow);
+  padding: 18px;
 }
 
+/* Cabecera estilo terminal */
 header {
-  padding: 1rem;
+  padding: 12px;
   text-align: center;
-  background-color: var(--bg);
-  border-bottom: 1px solid var(--border);
+  background-color: transparent; /* dejamos ver el panel */
+  border-bottom: 1px solid color-mix(in oklab, var(--border), transparent 40%);
+}
+header .intro {
+  max-width: 700px;
+  margin: 0 auto;
+}
+h1 {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--primary);
+  margin-bottom: 4px;
+  text-shadow: 0 0 10px color-mix(in oklab, var(--primary), black 40%);
+}
+p.lead {
+  font-size: 14px;
+  color: var(--muted);
 }
 
+/* Foto con borde fosforito */
 .profile-pic {
   width: 110px;
   height: 110px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid var(--primary);
-  margin: 1rem auto;
+  border: 1px solid var(--primary);
+  margin: 12px auto;
   box-shadow: 0 0 12px var(--shadow);
-  transition: transform 0.3s ease;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
-
 .profile-pic:hover {
-  transform: scale(1.05);
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 0 18px var(--shadow);
 }
 
-.intro {
-  max-width: 600px;
-  margin: 0 auto;
-}
-
-h1 {
-  font-size: 2.2rem;
-  font-weight: 600;
-  color: var(--primary);
-  margin-bottom: 0.3rem;
-}
-
-p.lead {
-  font-size: 1rem;
-  color: var(--muted);
-}
-
+/* Navegación en estilo “botón terminal” */
 nav {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 0.6rem;
-  margin-top: 1rem;
+  gap: 8px;
+  margin-top: 12px;
 }
-
 nav a {
-  padding: 0.45rem 1rem;
-  border: 1px solid var(--primary);
-  color: var(--primary);
-  background: transparent;
-  font-weight: 500;
-  border-radius: 6px;
-  font-size: 0.9rem;
+  padding: 7px 14px;
+  border: 1px solid var(--border);
+  color: var(--text);
+  background: rgba(0,0,0,.25);
+  font-weight: 600;
+  border-radius: 10px;
+  font-size: 13px;
   text-decoration: none;
-  transition: all 0.25s ease;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+  box-shadow: 0 0 0 rgba(0,0,0,0);
 }
-
 nav a:hover,
 nav a:focus {
-  background-color: var(--primary);
-  color: var(--bg);
+  background-color: color-mix(in oklab, var(--panel), var(--primary) 10%);
+  color: var(--text);
   outline: none;
-  box-shadow: 0 0 8px var(--primary);
+  box-shadow: 0 0 10px var(--shadow);
   transform: translateY(-1px);
 }
 
+/* Contenido principal dentro del panel CRT */
 main {
-  max-width: 720px;
-  margin: 2rem auto;
-  padding: 0 1rem;
+  max-width: 920px;
+  margin: 20px auto;
+  padding: 0 12px;
 }
 
+/* Tarjetas como “paneles de terminal” */
 .card {
-  background: var(--panel);
-  padding: 1.5rem;
-  border-radius: 10px;
-  margin-bottom: 2rem;
-  border: 1px solid var(--border);
+  background: rgba(0, 0, 0, .35);
+  padding: 16px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  border: 1px dashed color-mix(in oklab, var(--border), transparent 45%);
   box-shadow: 0 4px 14px rgba(255, 255, 255, 0.03);
   backdrop-filter: blur(2px);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
 }
-
 .card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-3px);
   box-shadow: 0 6px 20px var(--shadow);
+  border-color: var(--border);
 }
-
 .card h2 {
-  font-size: 1.4rem;
-  margin-bottom: 1rem;
+  font-size: 16px;
+  margin-bottom: 10px;
   color: var(--primary);
+  text-transform: uppercase;
+  letter-spacing: .05em;
 }
 
+/* Listas estilo terminal */
 ul {
-  list-style: disc;
-  padding-left: 1.5rem;
+  list-style: none;
+  padding-left: 0;
 }
-
 ul li {
-  margin-bottom: 0.5rem;
+  margin-bottom: 8px;
+  position: relative;
+  padding-left: 18px;
+}
+ul li::before {
+  content: "➤";
+  color: var(--accent);
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translateY(2px);
+  opacity: .9;
 }
 
+/* Enlaces */
 a {
-  color: var(--primary);
+  color: var(--accent);
   text-decoration: none;
+  border-bottom: 1px dotted color-mix(in oklab, var(--accent), transparent 50%);
 }
-
+.card a {
+  border-bottom: none;
+}
 a:hover,
 a:focus {
   text-decoration: underline;
   outline: none;
 }
 
+/* Pie */
 footer {
   text-align: center;
-  padding: 2rem 1rem;
-  font-size: 0.85rem;
+  padding: 18px 12px;
+  font-size: 12px;
   color: var(--muted);
-  border-top: 1px solid var(--border);
+  border-top: 1px solid color-mix(in oklab, var(--border), transparent 40%);
 }
 
+/* Utilidades tipo terminal */
+.terminal-muted { color: var(--muted); }
+.terminal-caret {
+  display: inline-block; width: 8px; height: 16px;
+  background: var(--text);
+  margin-left: 6px;
+  animation: blink 1s steps(2,end) infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }
+
 /* Responsive */
-@media (max-width: 600px) {
-  h1 {
-    font-size: 1.6rem;
-  }
+@media (max-width: 700px) {
+  h1 { font-size: 18px; }
+  nav { flex-direction: column; gap: 8px; }
+  .card { padding: 14px; }
+}
 
-  nav {
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  .intro {
-    padding: 0 1rem;
-  }
-
-  .card {
-    padding: 1.2rem;
-  }
+/* Accesibilidad: focus visible */
+:focus-visible {
+  outline: 2px dashed var(--border);
+  outline-offset: 2px;
 }
