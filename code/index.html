@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>xk0dex / code — Consola</title>
+  <meta name="description" content="Portafolio de proyectos de programación de xk0dex en formato consola retro." />
+  <meta name="theme-color" content="#000000" />
+  <style>
+    :root{
+      --bg:#000;--text:#00ff7b;--dim:#0a804f;--link:#7bffc1;--accent:#39ff14;--border:#1efc6d;
+      --glow:0 0 12px rgba(57,255,20,.35), 0 0 48px rgba(57,255,20,.08);
+      --scan:linear-gradient(rgba(255,255,255,.03),rgba(0,0,0,0) 2px) 0 0/100% 4px;
+    }
+    .amber{--text:#ffcc66;--dim:#a9792c;--link:#ffdca2;--accent:#ffb100;--border:#ffb100;}
+    .light{--bg:#0f1115;--text:#e6edf3;--dim:#6e7681;--link:#91cbff;--accent:#58a6ff;--border:#2f81f7;}
+
+    html,body{height:100%;}
+    body{margin:0;background:var(--bg);color:var(--text);font:15px/1.6 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;}
+    a{color:var(--link);text-decoration:none;border-bottom:1px dotted var(--link)}
+    a:hover{filter:brightness(1.15)}
+
+    .crt{min-height:100%;display:flex;align-items:center;justify-content:center;padding:24px;position:relative;overflow:hidden}
+    .crt::before{content:"";position:absolute;inset:0;background:var(--scan);pointer-events:none;mix-blend-mode:soft-light;opacity:.35}
+    .crt::after{content:"";position:absolute;inset:-2px;border:1px solid var(--border);box-shadow:inset 0 0 60px rgba(0,255,100,.08), var(--glow);border-radius:18px;}
+
+    .container{position:relative;max-width:980px;width:100%;padding:28px 20px 24px;border-radius:16px;border:1px solid var(--border);box-shadow:var(--glow);background:radial-gradient(1200px 600px at 50% 0%, rgba(57,255,20,.06), transparent 60%), linear-gradient(180deg, rgba(57,255,20,.04), transparent 30%);}
+
+    .header{display:flex;gap:12px;align-items:center;justify-content:space-between;margin-bottom:8px}
+    .brand{display:flex;gap:14px;align-items:center}
+    .led{width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 10px var(--accent),0 0 30px rgba(57,255,20,.6);}
+    .title{margin:0;font-size:18px;letter-spacing:.08em;text-transform:uppercase}
+    .subtitle{color:var(--dim);font-size:12px;margin-top:-2px}
+
+    .screen{margin-top:8px;border-radius:12px;border:1px solid color-mix(in oklab, var(--border), transparent 30%);
+      padding:16px 14px; background:rgba(0,0,0,.35);}
+
+    .output{max-height:min(62vh,620px);overflow:auto;scroll-behavior:smooth;padding-right:6px}
+    .row{white-space:pre-wrap}
+    .row.dim{color:var(--dim)}
+    .row.error{color:#ff6b6b}
+    .row.info{color:color-mix(in oklab, var(--text), white 35%)}
+    .cmd{color:var(--text);opacity:.85}
+
+    .prompt{display:flex;align-items:center;gap:10px;margin-top:10px}
+    .caret{color:var(--accent)}
+    input.cmdline{flex:1;background:transparent;color:var(--text);border:0;outline:0;font:inherit;caret-color:var(--accent)}
+    .blink{display:inline-block;width:8px;height:16px;background:var(--text);margin-left:4px;animation:blink 1s steps(2,end) infinite}
+
+    @keyframes blink{50%{opacity:0}}
+    @keyframes type{from{max-width:0}to{max-width:100%}}
+
+    .footer{margin-top:12px;color:var(--dim);font-size:12px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+
+    /* Fancy banner */
+    .banner{margin:8px 0 14px 0}
+    .logo{font-weight:700;letter-spacing:.05em}
+    .typing{overflow:hidden;display:inline-block;vertical-align:bottom;max-width:0;animation:type 1.2s steps(30,end) 0.2s forwards}
+
+    /* Project list */
+    .list{margin:8px 0;border-top:1px dashed color-mix(in oklab, var(--border), transparent 40%);padding-top:8px}
+    .proj{padding:6px 0}
+    .proj a{border-bottom:none}
+    .tags{color:var(--dim);font-size:12px}
+
+    /* Theme toggle */
+    .toolbar{display:flex;align-items:center;gap:10px}
+    .btn{border:1px solid var(--border);background:transparent;color:var(--text);padding:6px 10px;border-radius:10px;cursor:pointer}
+    .btn:hover{background:rgba(0,255,100,.06)}
+
+    /* Mobile */
+    @media (max-width:700px){.title{font-size:16px}.output{max-height:56vh}}
+  </style>
+</head>
+<body>
+  <div class="crt">
+    <div class="container" id="app">
+      <header class="header">
+        <div class="brand">
+          <span class="led" aria-hidden="true"></span>
+          <div>
+            <h1 class="title">xk0dex / code</h1>
+            <div class="subtitle">Portafolio en modo consola · React/TS · Retro UI</div>
+          </div>
+        </div>
+        <div class="toolbar">
+          <button class="btn" id="themeBtn" title="Cambiar tema">Tema</button>
+          <button class="btn" id="helpBtn" title="Ayuda">Ayuda</button>
+        </div>
+      </header>
+
+      <section class="screen">
+        <div class="banner">
+          <div class="row dim">Inicializando entorno… OK</div>
+          <div class="row logo">ConsolePort · <span class="typing">interfaz de portafolio en terminal</span></div>
+        </div>
+
+        <div id="output" class="output" role="log" aria-live="polite" aria-relevant="additions text"></div>
+
+        <div class="prompt">
+          <span class="caret">$</span>
+          <input id="cmd" class="cmdline" type="text" autocomplete="off" spellcheck="false" aria-label="Entrada de comandos" placeholder="escribe 'help' o 'list'…" />
+          <span class="blink" aria-hidden="true"></span>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <div>Atajos: ↑↓ historial · Tab autocompletar · Ctrl+L limpiar</div>
+        <div>© <span id="year"></span> xk0dex</div>
+      </footer>
+    </div>
+  </div>
+
+  <script>
+    // ===== Datos de proyectos (edita aquí) =====
+    const projects = [
+      {
+        name: 'ConsoleJuegos',
+        desc: 'Aventura de texto retro en navegador con React + TS + Tailwind.',
+        tags: ['react','typescript','tailwind','game'],
+        url: 'https://xk0dex.github.io/consolejuegos/' // <-- ajusta si es otra URL
+      },
+      {
+        name: 'CLI Toolkit',
+        desc: 'Colección de utilidades CLI en Node/TS para automatizar tareas.',
+        tags: ['node','cli','automation'],
+        url: 'https://github.com/xk0dex/cli-toolkit'
+      },
+      {
+        name: 'Retro UI Pack',
+        desc: 'Componentes UI con estética CRT y efectos scanline.',
+        tags: ['ui','design','css'],
+        url: 'https://github.com/xk0dex/retro-ui-pack'
+      }
+    ];
+
+    // ===== Estado de la consola =====
+    const elOut = document.getElementById('output');
+    const elCmd = document.getElementById('cmd');
+    const elYear = document.getElementById('year');
+    const themeBtn = document.getElementById('themeBtn');
+    const helpBtn = document.getElementById('helpBtn');
+
+    const THEMES = ['default','amber','light'];
+    let theme = (localStorage.getItem('code_theme')||'default');
+    applyTheme(theme);
+    elYear.textContent = new Date().getFullYear();
+
+    const history = JSON.parse(localStorage.getItem('code_history')||'[]');
+    let hIndex = -1;
+
+    const commands = {
+      help(){
+        print('Comandos disponibles:', 'info');
+        print('  help               · muestra esta ayuda');
+        print("  list [tag]         · lista proyectos (opcionalmente filtra por tag)");
+        print("  open <n|name>      · abre un proyecto por índice o nombre");
+        print("  tags               · muestra todas las etiquetas disponibles");
+        print("  theme [default|amber|light] · cambia el tema");
+        print("  about              · información del sitio");
+        print("  clear              · limpia la pantalla");
+      },
+      about(){
+        print('xk0dex / code — Portafolio en formato consola');
+        print('Stack: HTML + CSS + JS ligero. Animaciones y estética CRT.');
+        print('Consejo: usa Tab para autocompletar y ↑/↓ para historial.');
+      },
+      clear(){ elOut.innerHTML = '' },
+      list(tag){
+        const data = tag ? projects.filter(p=>p.tags.includes(tag.toLowerCase())) : projects;
+        if(!data.length){ print('No hay resultados.' ,'error'); return; }
+        data.forEach((p,i)=>{
+          const idx = projects.indexOf(p);
+          print(`[${idx}] ${p.name} — ${p.desc}`);
+          print(`     tags: ${p.tags.join(', ')}`, 'dim');
+        });
+      },
+      tags(){
+        const all = new Set(projects.flatMap(p=>p.tags));
+        print('Tags:', 'info');
+        print(Array.from(all).sort().join(', '));
+      },
+      theme(arg){
+        if(!arg){ print(`Tema actual: ${theme}. Opciones: ${THEMES.join(', ')}`); return; }
+        if(arg && THEMES.includes(arg)) { theme = arg; applyTheme(theme); print(`Tema cambiado a ${theme}.`); }
+        else { print('Tema no válido.', 'error'); }
+      },
+      open(arg){
+        if(!arg){ print('Uso: open <n|name>', 'error'); return; }
+        let p = null;
+        if(/^\d+$/.test(arg)) p = projects[Number(arg)]
+        else p = projects.find(x => x.name.toLowerCase() === arg.toLowerCase());
+        if(!p){ print('Proyecto no encontrado.', 'error'); return; }
+        print(`Abriendo ${p.name} → ${p.url}`, 'info');
+        window.open(p.url, '_blank');
+      }
+    };
+
+    // ===== Utilidades =====
+    function print(text, type){
+      const div = document.createElement('div');
+      div.className = 'row' + (type? ' ' + type : '');
+      div.textContent = text;
+      elOut.appendChild(div);
+      elOut.scrollTop = elOut.scrollHeight;
+    }
+
+    function applyTheme(t){
+      document.body.classList.remove('amber','light');
+      if(t==='amber') document.body.classList.add('amber');
+      if(t==='light') document.body.classList.add('light');
+      localStorage.setItem('code_theme', t);
+    }
+
+    function autocomplete(value){
+      const parts = value.trim().split(/\s+/);
+      const base = parts[0]||'';
+      const rest = parts.slice(1).join(' ');
+      const names = Object.keys(commands);
+      // si ya hay comando y escribes open <...>, auto para proyectos
+      if(base==='open' && rest){
+        const candidates = projects.map(p=>p.name.toLowerCase()).filter(n=>n.startsWith(rest.toLowerCase()));
+        if(candidates.length===1) return base+' '+candidates[0];
+        if(candidates.length>1) print(candidates.join('  '), 'dim');
+        return value;
+      }
+      const matches = names.filter(n=>n.startsWith(base.toLowerCase()));
+      if(matches.length===1) return matches[0] + (parts.length>1? ' '+rest : ' ');
+      if(matches.length>1) print(matches.join('  '), 'dim');
+      return value;
+    }
+
+    // Mensaje inicial
+    print('Bienvenido. Escribe \u201chelp\u201d para comenzar.', 'info');
+    commands.list();
+
+    // Eventos
+    elCmd.addEventListener('keydown', (e)=>{
+      if(e.key==='Enter'){
+        const raw = elCmd.value.trim();
+        if(!raw) return;
+        print('$ '+raw, 'cmd');
+        history.push(raw); if(history.length>200) history.shift();
+        localStorage.setItem('code_history', JSON.stringify(history));
+        hIndex = -1;
+
+        const [name, ...args] = raw.split(/\s+/);
+        const fn = commands[name];
+        if(!fn){ print('Comando no reconocido. Escribe help.', 'error'); elCmd.value=''; return; }
+        try{ fn(...args); }catch(err){ print('Error: '+(err&&err.message||err), 'error'); }
+        elCmd.value='';
+      }
+      else if(e.key==='Tab'){
+        e.preventDefault();
+        elCmd.value = autocomplete(elCmd.value);
+      }
+      else if(e.key==='ArrowUp'){
+        e.preventDefault();
+        if(history.length===0) return;
+        if(hIndex===-1) hIndex = history.length-1; else hIndex = Math.max(0, hIndex-1);
+        elCmd.value = history[hIndex];
+      }
+      else if(e.key==='ArrowDown'){
+        e.preventDefault();
+        if(hIndex===-1) return;
+        hIndex++;
+        if(hIndex>=history.length){ hIndex=-1; elCmd.value=''; } else { elCmd.value = history[hIndex]; }
+      }
+      else if(e.ctrlKey && e.key.toLowerCase()==='l'){
+        e.preventDefault(); commands.clear();
+      }
+    });
+
+    themeBtn.addEventListener('click',()=>{
+      const next = THEMES[(THEMES.indexOf(theme)+1)%THEMES.length];
+      commands.theme(next);
+    });
+    helpBtn.addEventListener('click',()=>commands.help());
+
+    // Accesibilidad: focus inicial
+    window.addEventListener('load',()=> elCmd.focus());
+  </script>
+</body>
+</html>
