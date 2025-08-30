@@ -3,78 +3,85 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Portafolio de Daniel Moreno Fernández (h4cksito) - Apasionado por la ciberseguridad y el hacking ético.">
-  <title>Daniel Moreno Fernández | xK0dex</title>
+  <meta name="description" content="Portafolio de Daniel Moreno Fernández (xk0dex) - Programación y ciberseguridad.">
+  <title>Daniel Moreno Fernández | xk0dex</title>
   <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+  <!-- Puedes quitar esta línea si prefieres tipografía 100% monoespaciada del tema -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
-<body>
-  <header>
-    <div class="container">
-      <img src="IMG_6168.jpeg" alt="Foto de Daniel Moreno Fernández" class="profile-pic" loading="lazy" />
-      <div class="intro">
-        <h1>Daniel Moreno Fernández</h1>
-        <p class="lead">Apasionado de la programación y la ciberseguridad • Alias <strong>xk0dex</strong></p>
-        <nav aria-label="Menú principal">
-          <a href="#about">Sobre mí</a>
-          <a href="auditorias.html">Auditorías</a>
-          <a href="/code/index.html" target="_blank" rel="noopener noreferrer">xk0dex</a>
-          <a href="https://tryhackme.com/p/h4cksito" target="_blank" rel="noopener noreferrer">TryHackMe</a>
-          <a href="#training">Formación</a>
-          <a href="write.html">Writeups</a>
-          <a href="#now">En progreso</a>
-          <a href="#contact">Contacto</a>
-        </nav>
-      </div>
+<body class="theme-amber">
+  <div class="crt-wrap">
+    <div class="crt-panel">
+
+      <header>
+        <div class="container">
+          <img src="IMG_6168.jpeg" alt="Foto de Daniel Moreno Fernández" class="profile-pic" loading="lazy" />
+          <div class="intro">
+            <h1>Daniel Moreno Fernández</h1>
+            <p class="lead">Apasionado de la programación y la ciberseguridad • Alias <strong>xk0dex</strong></p>
+            <nav aria-label="Menú principal">
+              <a href="#about">Sobre mí</a>
+              <a href="auditorias.html">Auditorías</a>
+              <a href="/code/index.html" target="_blank" rel="noopener noreferrer">xk0dex</a>
+              <a href="https://tryhackme.com/p/h4cksito" target="_blank" rel="noopener noreferrer">TryHackMe</a>
+              <a href="#training">Formación</a>
+              <a href="write.html">Writeups</a>
+              <a href="#now">En progreso</a>
+              <a href="#contact">Contacto</a>
+            </nav>
+          </div>
+        </div>
+      </header>
+
+      <main class="container">
+        <section id="about" class="card" aria-labelledby="about-title">
+          <h2 id="about-title">Sobre mí</h2>
+          <p>Soy <strong>Daniel</strong>, estudiante de <em>programación y hacking ético</em> con el objetivo de convertirme en <strong>programador y pentester profesional</strong>. Disfruto escribiendo código y explorando vulnerabilidades reales de forma legal y documentando lo aprendido para compartirlo con la comunidad.</p>
+        </section>
+
+        <section id="training" class="card" aria-labelledby="training-title">
+          <h2 id="training-title">Formación</h2>
+          <ul>
+            <li>Rutas <strong>Junior Penetration Tester</strong> y <strong>Web Application Security</strong> en TryHackMe</li>
+            <li>Especialización en <em>escalada de privilegios</em> y <em>seguridad web</em></li>
+          </ul>
+        </section>
+
+        <section id="certificate" class="card" aria-labelledby="certificate-title">
+          <h2 id="certificate-title">Certificaciones</h2>
+          <ul>
+            <li><a href="https://tryhackme-certificates.s3-eu-west-1.amazonaws.com/THM-FBSSONOKEI.pdf" target="_blank" rel="noopener noreferrer"><strong>Jr Penetration Tester</strong></a> — 29/06/2025</li>
+            <li><a href="https://tryhackme-certificates.s3-eu-west-1.amazonaws.com/THM-0IRVOB3JPI.png" target="_blank" rel="noopener noreferrer"><strong>Web Fundamentals</strong></a> — 23/07/2025</li>
+          </ul>
+        </section>
+
+        <section id="now" class="card" aria-labelledby="now-title">
+          <h2 id="now-title">En progreso</h2>
+          <ul>
+            <li>Preparación intensiva para el <strong>eJPT</strong></li>
+            <li>Documentar nuevas máquinas de <strong>TryHackMe</strong></li>
+            <li>Perfeccionar <em>red teaming</em> y evasión de defensas</li>
+          </ul>
+        </section>
+
+        <section id="contact" class="card" aria-labelledby="contact-title">
+          <h2 id="contact-title">Contacto</h2>
+          <address>
+            <p>
+              Correo: <a href="mailto:h4cksito@proton.me">h4cksito@proton.me</a><br />
+              Twitter: <a href="https://twitter.com/xk0dex" target="_blank" rel="noopener noreferrer">@xk0dex</a><br />
+              LinkedIn: <a href="https://www.linkedin.com/in/danielmoref" target="_blank" rel="noopener noreferrer">Daniel Moreno Fernández</a>
+            </p>
+          </address>
+        </section>
+      </main>
+
+      <footer>
+        <p>© 2025 Daniel Moreno Fernández — Todos los derechos reservados</p>
+      </footer>
+
     </div>
-  </header>
-
-  <main class="container">
-    <section id="about" class="card" aria-labelledby="about-title">
-      <h2 id="about-title">Sobre mí</h2>
-      <p>Soy <strong>Daniel</strong>, estudiante de <em>programación y hacking ético</em> con el objetivo de convertirme en <strong>programador y pentester profesional</strong>. Disfruto escribiendo código y explorando vulnerabilidades reales de forma legal y documentando lo aprendido para compartirlo con la comunidad.</p>
-    </section>
-
-    <section id="training" class="card" aria-labelledby="training-title">
-      <h2 id="training-title">Formación</h2>
-      <ul>
-        <li>Rutas <strong>Junior Penetration Tester</strong> y <strong>Web Application Security</strong> en TryHackMe</li>
-        <li>Especialización en <em>escalada de privilegios</em> y <em>seguridad web</em></li>
-      </ul>
-    </section>
-
-    <section id="certificate" class="card" aria-labelledby="certificate-title">
-      <h2 id="certificate-title">Certificaciones</h2>
-      <ul>
-        <li><a href="https://tryhackme-certificates.s3-eu-west-1.amazonaws.com/THM-FBSSONOKEI.pdf" target="_blank" rel="noopener noreferrer"><strong>Jr Penetration Tester</strong></a> — 29/06/2025</li>
-        <li><a href="https://tryhackme-certificates.s3-eu-west-1.amazonaws.com/THM-0IRVOB3JPI.png" target="_blank" rel="noopener noreferrer"><strong>Web Fundamentals</strong></a> — 23/07/2025</li>
-      </ul>
-    </section>
-
-    <section id="now" class="card" aria-labelledby="now-title">
-      <h2 id="now-title">En progreso</h2>
-      <ul>
-        <li>Preparación intensiva para el <strong>eJPT</strong></li>
-        <li>Documentar nuevas máquinas de <strong>TryHackMe</strong></li>
-        <li>Perfeccionar <em>red teaming</em> y evasión de defensas</li>
-      </ul>
-    </section>
-
-    <section id="contact" class="card" aria-labelledby="contact-title">
-      <h2 id="contact-title">Contacto</h2>
-      <address>
-        <p>
-          📧 Correo: <a href="mailto:h4cksito@proton.me">h4cksito@proton.me</a><br />
-          🐦 Twitter: <a href="https://twitter.com/h4cksito" target="_blank" rel="noopener noreferrer">@h4cksito</a><br />
-          💼 LinkedIn: <a href="https://www.linkedin.com/in/danielmoref" target="_blank" rel="noopener noreferrer">Daniel Moreno Fernández</a>
-        </p>
-      </address>
-    </section>
-  </main>
-
-  <footer>
-    <p>© 2025 Daniel Moreno Fernández — Todos los derechos reservados</p>
-  </footer>
+  </div>
 </body>
 </html>
