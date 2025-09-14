@@ -153,6 +153,63 @@
         print("  theme [default|amber|light] · cambia el tema");
         print("  about              · información del sitio");
         print("  clear              · limpia la pantalla");
+        print("  whoami             · información personal");
+        print("  skills             · habilidades técnicas");
+        print("  hack <target>      · simula un escaneo de puertos");
+        print("  matrix             · activa/desactiva efecto Matrix");
+        print("  contact            · información de contacto");
+      },
+      whoami(){
+        print('┌─────────────────────────────────────┐', 'info');
+        print('│ Daniel Moreno Fernández (xk0dex)    │', 'info');
+        print('│ Penetration Tester & Developer      │', 'info');
+        print('│ Location: Spain                     │', 'info');
+        print('│ Status: Preparing for eJPT          │', 'info');
+        print('└─────────────────────────────────────┘', 'info');
+      },
+      skills(){
+        print('💥 Penetration Testing:', 'info');
+        print('   Burp Suite, Nmap, Metasploit, OWASP Top 10');
+        print('⚡ Programming:', 'info');
+        print('   Python, Bash, JavaScript, React, HTML/CSS');
+        print('🔧 Systems:', 'info');
+        print('   Linux (Kali, Ubuntu), Windows, Networking');
+      },
+      contact(){
+        print('📧 Email: h4cksito@proton.me');
+        print('🐦 Twitter: @xk0dex');
+        print('💼 LinkedIn: Daniel Moreno Fernández');
+        print('🌐 Portfolio: https://xk0dex.github.io');
+      },
+      hack(target){
+        if(!target){ print('Uso: hack <target>', 'error'); return; }
+        print(`Iniciando escaneo en ${target}...`, 'info');
+        
+        setTimeout(() => {
+          print('Nmap scan report for ' + target);
+          print('Host is up (0.0024s latency).');
+          print('PORT     STATE SERVICE');
+          
+          const ports = ['22/tcp   open  ssh', '80/tcp   open  http', '443/tcp  open  https'];
+          if(Math.random() > 0.5) ports.push('21/tcp   open  ftp');
+          if(Math.random() > 0.7) ports.push('3389/tcp open  rdp');
+          
+          ports.forEach(port => {
+            setTimeout(() => print(port), Math.random() * 500);
+          });
+          
+          setTimeout(() => {
+            print('Scan completed successfully! 🎯', 'info');
+            print('Tip: Always get permission before testing! 🛡️', 'dim');
+          }, 1000);
+        }, 800);
+      },
+      matrix(){
+        const canvas = document.querySelector('canvas');
+        if(canvas) {
+          canvas.style.opacity = canvas.style.opacity === '0' ? '0.1' : '0';
+          print(canvas.style.opacity === '0' ? 'Matrix effect disabled' : 'Matrix effect enabled');
+        }
       },
       about(){
         print('xk0dex / code — Portafolio en formato consola');
