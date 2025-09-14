@@ -4,11 +4,27 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Portafolio de Daniel Moreno Fernández (xk0dex) - Programación y ciberseguridad.">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://xk0dex.github.io/">
+  <meta property="og:title" content="Daniel Moreno Fernández | xk0dex - Pentester & Developer">
+  <meta property="og:description" content="Portfolio de ciberseguridad y programación. Especializado en penetration testing y desarrollo web.">
+  <meta property="og:image" content="https://xk0dex.github.io/IMG_6168.jpeg">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://xk0dex.github.io/">
+  <meta property="twitter:title" content="Daniel Moreno Fernández | xk0dex - Pentester & Developer">
+  <meta property="twitter:description" content="Portfolio de ciberseguridad y programación. Especializado en penetration testing y desarrollo web.">
+  <meta property="twitter:image" content="https://xk0dex.github.io/IMG_6168.jpeg">
+  
   <title>Daniel Moreno Fernández | xk0dex</title>
   <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-  <!-- Puedes quitar esta línea si prefieres tipografía 100% monoespaciada del tema -->
+  <!-- Solo cargar Inter para elementos específicos, usar system fonts como fallback -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
+  <link rel="preload" href="IMG_6168.jpeg" as="image" />
 </head>
 <body class="theme">
   <div class="crt-wrap">
@@ -48,6 +64,39 @@
           </ul>
         </section>
 
+        <section id="skills" class="card" aria-labelledby="skills-title">
+          <h2 id="skills-title">Skills Técnicos</h2>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;">
+            <div>
+              <h3 style="color: var(--primary); font-size: 14px; margin: 0 0 8px 0;">Penetration Testing</h3>
+              <ul style="margin: 0; font-size: 13px;">
+                <li>Burp Suite</li>
+                <li>Nmap, Nessus</li>
+                <li>Metasploit</li>
+                <li>OWASP Top 10</li>
+              </ul>
+            </div>
+            <div>
+              <h3 style="color: var(--primary); font-size: 14px; margin: 0 0 8px 0;">Programación</h3>
+              <ul style="margin: 0; font-size: 13px;">
+                <li>Python, Bash</li>
+                <li>JavaScript/React</li>
+                <li>HTML/CSS</li>
+                <li>Git/GitHub</li>
+              </ul>
+            </div>
+            <div>
+              <h3 style="color: var(--primary); font-size: 14px; margin: 0 0 8px 0;">Sistemas</h3>
+              <ul style="margin: 0; font-size: 13px;">
+                <li>Linux (Kali, Ubuntu)</li>
+                <li>Windows</li>
+                <li>Networking</li>
+                <li>Virtualización</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
         <section id="certificate" class="card" aria-labelledby="certificate-title">
           <h2 id="certificate-title">Certificaciones</h2>
           <ul>
@@ -67,7 +116,11 @@
 
         <section id="contact" class="card" aria-labelledby="contact-title">
           <h2 id="contact-title">Contacto</h2>
-          <address>
+          <div style="text-align: center; margin-bottom: 16px;">
+            <a href="mailto:h4cksito@proton.me" style="display: inline-block; padding: 12px 24px; background: var(--primary); color: var(--bg); text-decoration: none; border-radius: 8px; font-weight: 600; margin: 0 8px 8px 0; transition: transform 0.2s ease;">📧 Contrátame</a>
+            <a href="#" onclick="window.print(); return false;" style="display: inline-block; padding: 12px 24px; border: 1px solid var(--primary); color: var(--primary); text-decoration: none; border-radius: 8px; font-weight: 600; margin: 0 8px 8px 0; transition: transform 0.2s ease;">📄 Descargar CV</a>
+          </div>
+          <address style="font-style: normal;">
             <p>
               Correo: <a href="mailto:h4cksito@proton.me">h4cksito@proton.me</a><br />
               Twitter: <a href="https://twitter.com/xk0dex" target="_blank" rel="noopener noreferrer">@xk0dex</a><br />
